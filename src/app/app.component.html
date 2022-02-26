@@ -1,3 +1,29 @@
 <div class="container">
-  <h1>Test</h1>
+  <app-title [won]="won"></app-title>
+  <div class="grid-container">
+    <ng-container *ngFor="let word of words; let wordIndex = index">
+      <ng-container *ngFor="let letter of word; let letterIndex = index">
+        <input
+          [(ngModel)]="letter.value"
+          (ngModelChange)="checkLetterInWord(wordIndex, letterIndex)"
+          [ngClass]="{
+            'correct': letter.state === state.Correct,
+            'incorrect': letter.state === state.Incorrect,
+            'hint': letter.state === state.Hint
+          }"
+          [readonly]="letter.value"
+          #input
+          nz-input
+          class="letter grid-item"
+          maxlength="1"
+          moveNextByMaxLength
+        />
+      </ng-container>
+    </ng-container>
+  </div>
+  <button class="retry-button" nz-button (click)="reloadPage()">
+    <i nz-icon nzType="reload" nzTheme="outline"></i>
+    Opnieuw
+  </button>
 </div>
+

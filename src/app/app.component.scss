@@ -1,7 +1,41 @@
 .container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   width: 100%;
+  text-align: center;
+
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-rows: auto auto auto;
+}
+
+.grid-container {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: auto auto auto auto auto;
+  gap: 4px;
+  padding: 10px;
+}
+
+.letter {
+  text-align: center;
+  width: 40px;
+}
+
+.correct {
+  background-color: green;
+}
+
+.incorrect {
+  background-color: red;
+}
+
+.hint {
+  background-color: orange;
+}
+
+.retry-button {
+  margin-left: 10px;
+  margin-right: 10px;
 }
