@@ -73,6 +73,12 @@ export class AppComponent {
           'Gefeliciteerd',
           `Je hebt het juiste woord (${this.currentWord}) geraden!`
         );
+      } else if (wordIndex + 1 === this.allowedGuesses) {
+        this.notification.create(
+          'error',
+          'Helaas',
+          `Het woord was "${this.currentWord}".`
+        );
       }
 
       // We need some duct tape to prevent the keyboard from disappearing on mobile.
@@ -82,14 +88,6 @@ export class AppComponent {
           letter.setLetterStateBasedOnWord(this.currentWord!, i);
         }
       });
-
-      if (wordIndex + 1 === this.allowedGuesses) {
-        this.notification.create(
-          'error',
-          'Helaas',
-          `Het woord was "${this.currentWord}".`
-        );
-      }
     }
   }
 
