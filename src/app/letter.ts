@@ -9,12 +9,14 @@ export class Letter {
       return;
     }
 
-    if (currentWord[letterIndex] === this.value?.toLowerCase()) {
+    const lowerCaseValue = this.value?.toLowerCase();
+
+    if (currentWord[letterIndex] === lowerCaseValue) {
       this.state = State.Correct;
       return;
     }
 
-    if (currentWord.includes(this.value)) {
+    if (currentWord.includes(lowerCaseValue)) {
       this.state = State.Hint;
       return;
     }
