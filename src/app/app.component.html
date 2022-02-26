@@ -12,7 +12,7 @@
             'incorrect': letter.state === state.Incorrect,
             'hint': letter.state === state.Hint
           }"
-          [readonly]="letter.value"
+          [readonly]="letter.state !== state.None"
           class="letter grid-item"
           maxlength="1"
           moveNextByMaxLength
