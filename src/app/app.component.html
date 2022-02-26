@@ -4,6 +4,7 @@
     <ng-container *ngFor="let word of words; let wordIndex = index">
       <ng-container *ngFor="let letter of word; let letterIndex = index">
         <input
+          #input
           [(ngModel)]="letter.value"
           (ngModelChange)="checkLetterInWord(wordIndex, letterIndex)"
           [ngClass]="{
@@ -12,17 +13,16 @@
             'hint': letter.state === state.Hint
           }"
           [readonly]="letter.value"
-          #input
-          nz-input
           class="letter grid-item"
           maxlength="1"
           moveNextByMaxLength
+          nz-input
         />
       </ng-container>
     </ng-container>
   </div>
-  <button class="retry-button" nz-button (click)="reloadPage()">
-    <i nz-icon nzType="reload" nzTheme="outline"></i>
+  <button (click)="reloadPage()" class="retry-button" nz-button>
+    <i nz-icon nzTheme="outline" nzType="reload"></i>
     Opnieuw
   </button>
 </div>

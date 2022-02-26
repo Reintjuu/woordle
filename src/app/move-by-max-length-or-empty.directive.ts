@@ -4,6 +4,14 @@ import { Directive, HostListener } from '@angular/core';
   selector: 'input[moveNextByMaxLength], textarea[moveNextByMaxLength]',
 })
 export class MoveByMaxLengthOrEmptyDirective {
+  private static getNextOrPreviousElement(element: Element | null, goToNext: boolean): Element | null {
+    if (!element) {
+      return null;
+    }
+
+    return goToNext ? element.nextElementSibling : element.previousElementSibling;
+  }
+
   @HostListener('keyup', ['$event']) onKeyDown(keyboardEvent: KeyboardEvent) {
     const target = keyboardEvent.target as
       | HTMLInputElement
@@ -31,13 +39,5 @@ export class MoveByMaxLengthOrEmptyDirective {
 
       selectedSibling = MoveByMaxLengthOrEmptyDirective.getNextOrPreviousElement(selectedSibling, goToNext);
     }
-  }
-
-  private static getNextOrPreviousElement(element: Element | null, goToNext: boolean): Element | null {
-    if (!element) {
-      return null;
-    }
-
-    return goToNext ? element.nextElementSibling : element.previousElementSibling;
   }
 }
