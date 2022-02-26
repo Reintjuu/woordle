@@ -2,6 +2,7 @@ import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { WordService } from "./word.service";
 import { Letter } from "./letter";
 import { State } from "./state";
+import { NzNotificationService } from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'app-root',
@@ -14,19 +15,21 @@ export class AppComponent {
   state = State;
   won = false;
 
-  private readonly wordGuessAmount = 6;
+  private readonly allowedGuesses = 6;
   private readonly wordLength = 5;
 
   private currentWord?: string;
 
-  constructor(private wordService: WordService) { }
+  constructor(
+    private wordService: WordService,
+    private notification: NzNotificationService) { }
 
   ngAfterViewInit(): void {
     this.inputs?.first.nativeElement.focus();
   }
 
   async ngOnInit(): Promise<void> {
-    for (let wordIndex = 0; wordIndex < this.wordGuessAmount; wordIndex++) {
+    for (let wordIndex = 0; wordIndex < this.allowedGuesses; wordIndex++) {
       const letters = new Array<Letter>();
       for (let letterIndex = 0; letterIndex < this.wordLength; letterIndex++) {
         letters.push(new Letter());
@@ -54,22 +57,38 @@ export class AppComponent {
 
       if (!await this.wordService.isRealWord(assembledWordGuess)) {
         setTimeout(() => this.resetGuess(wordToCheck, wordIndex));
+        this.notification.create(
+          'warning',
+          'Onbekend woord',
+          `Het woord ${assembledWordGuess} staat niet in de woordenlijst.`
+        );
         return;
       }
 
-      for (let i = 0; i < wordToCheck.length; i++) {
-        const letter = wordToCheck[i];
-        letter.setLetterStateBasedOnWord(this.currentWord, i);
-      }
-
-      // Check whether each letter is marked correct.
-      if (wordToCheck.find(letter => letter.state !== State.Correct)) {
-        return;
-      }
-
-      // And check if we've won.
+      // Check if we've won.
       if (assembledWordGuess === this.currentWord) {
         this.won = true;
+        this.notification.create(
+          'success',
+          'Gefeliciteerd',
+          `Je hebt het juiste woord (${this.currentWord}) geraden!`
+        );
+      }
+
+      // We need some duct tape to prevent the keyboard from disappearing on mobile.
+      setTimeout(() => {
+        for (let i = 0; i < wordToCheck.length; i++) {
+          const letter = wordToCheck[i];
+          letter.setLetterStateBasedOnWord(this.currentWord!, i);
+        }
+      });
+
+      if (wordIndex + 1 === this.allowedGuesses) {
+        this.notification.create(
+          'error',
+          'Helaas',
+          `Het woord was "${this.currentWord}".`
+        );
       }
     }
   }
@@ -86,7 +105,7 @@ export class AppComponent {
     }
 
     // Focus the first of the current guess row.
-    this.inputs?.get(this.wordLength * wordIndex)?.nativeElement.focus()
+    setTimeout(() => this.inputs?.get(this.wordLength * wordIndex)?.nativeElement.focus());
   }
 }
 
