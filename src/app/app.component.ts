@@ -2,7 +2,7 @@ import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
 import { WordService } from "./word.service";
 import { Letter } from "./letter";
 import { State } from "./state";
-import { NzNotificationService } from "ng-zorro-antd/notification";
+import { NzNotificationDataOptions, NzNotificationService } from "ng-zorro-antd/notification";
 
 @Component({
   selector: 'app-root',
@@ -77,7 +77,10 @@ export class AppComponent {
         this.notification.create(
           'error',
           'Helaas',
-          `Het woord was "${this.currentWord}".`
+          `Het woord was "${this.currentWord}".`,
+          {
+            nzDuration: undefined
+          } as NzNotificationDataOptions
         );
       }
 
