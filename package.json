@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "test:ci": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
-    "github-pages": "ng build --output-path docs --base-href /woordle/"
+    "build:github-pages": "ng build --base-href /woordle/"
   },
   "private": true,
   "dependencies": {
