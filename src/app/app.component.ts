@@ -1,4 +1,4 @@
-import { Component, ElementRef, QueryList, ViewChildren } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, QueryList, ViewChildren} from '@angular/core';
 import { WordService } from "./word.service";
 import { Letter } from "./letter";
 import { State } from "./state";
@@ -9,7 +9,7 @@ import { NzNotificationDataOptions, NzNotificationService } from "ng-zorro-antd/
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit, OnInit {
   @ViewChildren('input') inputs?: QueryList<ElementRef>;
   words: Array<Array<Letter>> = new Array<Array<Letter>>();
   state = State;
@@ -18,7 +18,9 @@ export class AppComponent {
   private readonly allowedGuesses = 6;
   private readonly wordLength = 5;
 
-  private currentWord?: string;
+  private wordToGuess?: string;
+  private currentWordIndex = 0;
+  private currentLetterIndex = 0;
 
   constructor(
     private wordService: WordService,
@@ -30,22 +32,23 @@ export class AppComponent {
 
   async ngOnInit(): Promise<void> {
     for (let wordIndex = 0; wordIndex < this.allowedGuesses; wordIndex++) {
-      const letters = new Array<Letter>();
+      const word = new Array<Letter>();
       for (let letterIndex = 0; letterIndex < this.wordLength; letterIndex++) {
-        letters.push(new Letter());
+        word.push(new Letter());
       }
-      this.words.push(letters);
+      this.words.push(word);
     }
 
-    this.currentWord = await this.wordService.getRandomWord();
-    console.log(this.currentWord);
+    this.wordToGuess = await this.wordService.getRandomWord();
+    console.log(this.wordToGuess);
   }
 
   async checkLetterInWord(wordIndex: number, letterIndex: number): Promise<void> {
-    if (!this.currentWord) {
+    if (!this.wordToGuess) {
       return;
     }
 
+    this.currentLetterIndex++;
     // If we're at the last letter of the current guess ...
     if (letterIndex === this.wordLength - 1) {
       const wordToCheck = this.words[wordIndex];
@@ -65,30 +68,33 @@ export class AppComponent {
         return;
       }
 
-      // Check if we've won.
-      if (assembledWordGuess === this.currentWord) {
+      // Check if we have won or lost already.
+      if (assembledWordGuess === this.wordToGuess) {
         this.won = true;
         this.notification.create(
           'success',
           'Gefeliciteerd',
-          `Je hebt het juiste woord (${this.currentWord}) geraden!`
+          `Je hebt het juiste woord (${this.wordToGuess}) geraden!`
         );
       } else if (wordIndex + 1 === this.allowedGuesses) {
         this.notification.create(
           'error',
           'Helaas',
-          `Het woord was "${this.currentWord}".`,
+          `Het woord was "${this.wordToGuess}".`,
           {
             nzDuration: undefined
           } as NzNotificationDataOptions
         );
       }
 
+      this.currentWordIndex++;
+      this.currentLetterIndex = 0;
+
       // We need some duct tape to prevent the keyboard from disappearing on mobile.
       setTimeout(() => {
         for (let i = 0; i < wordToCheck.length; i++) {
           const letter = wordToCheck[i];
-          letter.setLetterStateBasedOnWord(this.currentWord!, i);
+          letter.setLetterStateBasedOnWord(this.wordToGuess, i);
         }
       });
     }
@@ -105,8 +111,28 @@ export class AppComponent {
       letter.state = State.None;
     }
 
+
+    // TODO: Remove this hacky stuff, and use proper current index tracking.
     // Focus the first of the current guess row.
     setTimeout(() => this.inputs?.get(this.wordLength * wordIndex)?.nativeElement.focus());
   }
-}
 
+  updateCurrentFocus(wordIndex: number, letterIndex: number): void {
+    this.currentWordIndex = wordIndex;
+    this.currentLetterIndex = letterIndex;
+  }
+
+  async onPressKeyboardKey($event: string): Promise<void> {
+    this.words[this.currentWordIndex][this.currentLetterIndex].value = $event;
+    await this.checkLetterInWord(this.currentWordIndex, this.currentLetterIndex);
+  }
+
+  onPressKeyboardBackspace() {
+    if (this.currentLetterIndex === 0) {
+      return;
+    }
+
+    this.currentLetterIndex--;
+    this.words[this.currentWordIndex][this.currentLetterIndex].value = undefined;
+  }
+}

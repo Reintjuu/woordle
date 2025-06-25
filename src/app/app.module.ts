@@ -15,6 +15,7 @@ import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzIconModule } from "ng-zorro-antd/icon";
 import { ReloadOutline } from '@ant-design/icons-angular/icons';
 import { NzNotificationModule } from 'ng-zorro-antd/notification';
+import { KeyboardComponent } from './keyboard/keyboard.component';
 
 registerLocaleData(nl);
 
@@ -22,7 +23,8 @@ registerLocaleData(nl);
   declarations: [
     AppComponent,
     MoveByMaxLengthOrEmptyDirective,
-    TitleComponent
+    TitleComponent,
+    KeyboardComponent
   ],
   imports: [
     BrowserModule,

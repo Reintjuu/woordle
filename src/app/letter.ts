@@ -4,7 +4,7 @@ export class Letter {
   value?: string;
   state = State.None;
 
-  public setLetterStateBasedOnWord(currentWord: string, letterIndex: number): void {
+  public setLetterStateBasedOnWord(currentWord: string | undefined, letterIndex: number): void {
     if (!currentWord || !this.value) {
       return;
     }
