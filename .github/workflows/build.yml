@@ -3,6 +3,9 @@
 
 name: Node.js CI
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [ "master" ]
@@ -33,4 +36,11 @@ jobs:
       run: npm run test:ci
 
     - name: Build
-      run: npm run build
+      run: npm run build:github-pages
+
+    - name: Deploy to GitHub Pages
+      if: github.event_name == 'push'
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        branch: github-pages
+        folder: dist/woordle
