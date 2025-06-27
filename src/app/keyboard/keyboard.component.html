@@ -6,6 +6,8 @@
       (click)="onPress(key)"
       [nzType]="'primary'"
       style="margin: 2px;"
+      (mousedown)="$event.preventDefault()"
+      (touchstart)="$event.preventDefault()"
     >
       {{ key }}
     </button>

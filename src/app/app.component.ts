@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { WordService } from "./word.service";
 import { Letter } from "./letter";
 import { State } from "./state";
@@ -54,8 +54,8 @@ export class AppComponent implements OnInit {
       .toLowerCase();
 
     if (!await this.wordService.isRealWord(assembledWordGuess)) {
-      this.resetGuess(wordToCheck, wordIndex);
-      this.notification.create('warning', 'Onbekend woord', `Het woord ${assembledWordGuess} staat niet in de woordenlijst.`);
+      this.resetGuess(wordToCheck);
+      this.notification.create('warning', 'Onbekend woord', `Het woord "${assembledWordGuess}" staat niet in de woordenlijst.`);
       return;
     }
 
@@ -85,23 +85,35 @@ export class AppComponent implements OnInit {
     window.location.reload();
   }
 
-  private resetGuess(guess: Array<Letter>, wordIndex: number): void {
+  private resetGuess(guess: Array<Letter>): void {
     for (let i = 0; i < guess.length; i++) {
       const letter = guess[i];
       letter.value = undefined;
       letter.state = State.None;
     }
 
-    // Focus the first of the current guess row.
+    // Focus the first letter of the current guess row.
     this.currentLetterIndex = 0;
   }
 
-  onKeyboardKeyPress($event: string): void {
-    if (this.currentLetterIndex === this.wordLength) {
+  @HostListener('window:keydown', ['$event'])
+  async onKeyDown($event: KeyboardEvent): Promise<void> {
+    if ($event.key === 'Enter') {
+      await this.onKeyboardEnterPress();
+    } else if ($event.key === 'Backspace') {
+      this.onKeyboardBackspacePress();
+    } else {
+      this.addLetterToCurrentGuess($event.key);
+    }
+  }
+
+  addLetterToCurrentGuess(letter: string): void {
+    if (this.currentLetterIndex === this.wordLength
+      || !this.isOneLetter(letter)) {
       return;
     }
 
-    this.words[this.currentWordIndex][this.currentLetterIndex].value = $event;
+    this.words[this.currentWordIndex][this.currentLetterIndex].value = letter;
     this.currentLetterIndex++;
   }
 
@@ -122,5 +134,9 @@ export class AppComponent implements OnInit {
 
     this.currentLetterIndex--;
     this.words[this.currentWordIndex][this.currentLetterIndex].value = undefined;
+  }
+
+  private isOneLetter(char: string): boolean {
+    return /^\p{L}$/u.test(char);
   }
 }

@@ -27,7 +27,7 @@
   </button>
 
   <app-keyboard
-    (keyPressed)="onKeyboardKeyPress($event)"
+    (keyPressed)="addLetterToCurrentGuess($event)"
     (enterPressed)="onKeyboardEnterPress()"
     (backspacePressed)="onKeyboardBackspacePress()">
   </app-keyboard>
