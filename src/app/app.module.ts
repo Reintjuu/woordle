@@ -9,7 +9,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzInputModule } from 'ng-zorro-antd/input';
 import { NzGridModule } from 'ng-zorro-antd/grid';
-import { MoveByMaxLengthOrEmptyDirective } from "./move-by-max-length-or-empty.directive";
 import { TitleComponent } from './title/title.component';
 import { NzButtonModule } from "ng-zorro-antd/button";
 import { NzIconModule } from "ng-zorro-antd/icon";
@@ -22,7 +21,6 @@ registerLocaleData(nl);
 @NgModule({
   declarations: [
     AppComponent,
-    MoveByMaxLengthOrEmptyDirective,
     TitleComponent,
     KeyboardComponent
   ],

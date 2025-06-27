@@ -5,19 +5,16 @@
       <ng-container *ngFor="let letter of word; let letterIndex = index">
         <!-- TODO: Track indexes manually instead, and don't use the input with the weird focus hacks anymore. -->
         <input
-          #input
           [(ngModel)]="letter.value"
-          (ngModelChange)="checkLetterInWord(wordIndex, letterIndex)"
+          (ngModelChange)="checkFullWordGuess(wordIndex)"
           [ngClass]="{
             'correct': letter.state === state.Correct,
             'incorrect': letter.state === state.Incorrect,
             'hint': letter.state === state.Hint
           }"
-          [readonly]="letter.state !== state.None"
-          (focus)="updateCurrentFocus(wordIndex, letterIndex)"
+          readonly
           class="letter grid-item"
           maxlength="1"
-          moveNextByMaxLength
           nz-input
           nzSize="large"
         />
@@ -29,7 +26,9 @@
     Opnieuw
   </button>
 
-  <app-keyboard (keyPressed)="onPressKeyboardKey($event)" (backspacePressed)="onPressKeyboardBackspace()">
+  <app-keyboard
+    (keyPressed)="onKeyboardKeyPress($event)"
+    (enterPressed)="onKeyboardEnterPress()"
+    (backspacePressed)="onKeyboardBackspacePress()">
   </app-keyboard>
 </div>
-
