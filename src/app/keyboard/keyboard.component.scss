@@ -1,23 +1,77 @@
+@import "~src/app/state-hints";
+
 .keyboard {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: 8px;
 }
 
 .keyboard-row {
   display: flex;
   justify-content: center;
-  margin-bottom: 5px;
+  gap: 4px;
+
+  // Reduce gap on very small screens
+  @media (max-width: 400px) {
+    gap: 2px;
+  }
 }
 
-.correct {
-  background-color: green;
+.keyboard-row button {
+  height: 50px;
+  min-width: 20px;
+  flex: 1;
+  max-width: 45px;
+  font-size: clamp(10px, 4vw, 16px);
+  font-weight: bold;
+
+  // Ensure text is always centered and fits
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  // Prevent text overflow and allow scaling
+  overflow: hidden;
+  white-space: nowrap;
+
+  // Mobile adjustments - taller keys
+  @media (max-width: 767px) {
+    height: 55px;
+    font-size: clamp(12px, 5vw, 18px);
+  }
+
+  // Very small screens - scale everything down
+  @media (max-width: 400px) {
+    height: 50px;
+    font-size: clamp(8px, 3.5vw, 14px);
+    min-width: 25px;
+    max-width: 35px;
+  }
+
+  // Extra small screens - aggressive scaling
+  @media (max-width: 320px) {
+    font-size: clamp(6px, 3vw, 12px);
+    min-width: 20px;
+    max-width: 30px;
+  }
+
+  // Tablet adjustments
+  @media (min-width: 768px) and (max-width: 1024px) {
+    height: 52px;
+    font-size: clamp(14px, 4.5vw, 17px);
+  }
 }
 
-.incorrect {
-  background-color: red;
-}
+// Target ENTER and backspace keys in the last row
+.keyboard-row:last-child button:first-child,
+.keyboard-row:last-child button:last-child {
+  flex: 2;
+  min-width: 45px;
+  max-width: 80px;
 
-.hint {
-  background-color: orange;
+  font-weight: normal;
 }

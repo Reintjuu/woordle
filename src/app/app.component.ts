@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { WordService } from "./word.service";
 import { Letter } from "./letter";
 import { State } from "./state";
@@ -24,7 +24,6 @@ export class AppComponent implements OnInit {
   private wordToGuess?: string;
   private currentWordIndex = 0;
   private currentLetterIndex = 0;
-
 
   constructor(
     private wordService: WordService,
@@ -61,6 +60,8 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   public async onKeyDown($event: KeyboardEvent): Promise<void> {
+    $event.preventDefault();
+
     switch ($event.key) {
       case 'Enter':
         await this.submitGuess();

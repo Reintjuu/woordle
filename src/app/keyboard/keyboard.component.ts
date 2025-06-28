@@ -13,8 +13,8 @@ export class KeyboardComponent {
   @Output() enterPressed = new EventEmitter();
   public readonly state = State;
 
-  private readonly enterKey = 'ENTER';
-  private readonly backspaceKey = '<';
+  private readonly enterKey = '⤶';
+  private readonly backspaceKey = 'ᐊ';
   keyboard = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
@@ -24,9 +24,13 @@ export class KeyboardComponent {
   public setLettersStateBasedOnInputLetter(input: Letter): void {
     for (const row of this.keyboard) {
       for (const key of row) {
-        if (key.value?.toLowerCase() === input.value?.toLowerCase()) {
-          key.state = input.state;
+        if (key.value?.toLowerCase() !== input.value?.toLowerCase()
+          // Only upgrade keyboard key hints.
+          || key.state >= input.state) {
+          continue;
         }
+
+        key.state = input.state;
       }
     }
   }
