@@ -1,38 +1,39 @@
 <div class="container">
-  <app-title [won]="won"></app-title>
-  <div class="grid-container">
-    <ng-container *ngFor="let word of words; ">
-      <ng-container *ngFor="let letter of word; ">
-        <input
-          [(ngModel)]="letter.value"
+  <div class="content">
+    <app-title [won]="won"></app-title>
+
+    <div class="words-container">
+      <div class="grid-container" *ngFor="let word of words">
+        <div
+          class="letter"
+          *ngFor="let letter of word"
           [ngClass]="{
             'correct': letter.state === state.Correct,
             'incorrect': letter.state === state.Incorrect,
             'hint': letter.state === state.Hint
-          }"
-          readonly
-          class="letter grid-item"
-          maxlength="1"
-          nz-input
-          nzSize="large"
-        />
-      </ng-container>
-    </ng-container>
-  </div>
-  <button
-    (click)="resetGame()"
-    class="retry-button"
-    nz-button
-    (mousedown)="$event.preventDefault()"
-  >
-    <i nz-icon nzTheme="outline" nzType="reload"></i>
-    Opnieuw
-  </button>
+          }">
+          {{ letter.value }}
+        </div>
+      </div>
+    </div>
 
-  <app-keyboard
-    #keyboard
-    (keyPressed)="addLetterToCurrentGuess($event)"
-    (enterPressed)="submitGuess()"
-    (backspacePressed)="removeLastLetter()">
-  </app-keyboard>
+    <button
+      nz-button
+      *ngIf="won"
+      (click)="resetGame()"
+      class="retry-button"
+    >
+      <i nz-icon nzType="reload" nzTheme="outline"></i>
+      Opnieuw spelen
+    </button>
+  </div>
+
+  <div class="keyboard-container">
+    <app-keyboard
+      #keyboard
+      (keyPressed)="addLetterToCurrentGuess($event)"
+      (backspacePressed)="removeLastLetter()"
+      (enterPressed)="submitGuess()">
+    </app-keyboard>
+  </div>
 </div>

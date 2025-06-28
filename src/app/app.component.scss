@@ -1,43 +1,80 @@
 .container {
-  height: 100%;
+  height: 100vh;
   width: 100%;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
 
-  display: grid;
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
-  grid-template-rows: auto auto auto;
+  align-items: center;
+  text-align: center;
+  min-height: 0;
+}
+
+.words-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .grid-container {
   display: grid;
-  justify-content: center;
-  align-content: center;
-  grid-template-columns: auto auto auto auto auto;
+  grid-template-columns: repeat(5, 1fr);
   gap: 4px;
-  padding: 10px;
+  justify-content: center;
 }
 
 .letter {
   text-align: center;
   text-transform: uppercase;
+
+  // Responsive font size with limits
+  font-size: clamp(12px, 5vw, 18px);
   font-weight: bold;
-  width: 40px;
-}
+  width: 50px;
+  height: 50px;
+  border: 1px solid #434343;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-.correct {
-  background-color: green;
-}
-
-.incorrect {
-  background-color: red;
-}
-
-.hint {
-  background-color: orange;
+  @media (max-width: 400px) {
+    width: 35px;
+    height: 35px;
+  }
 }
 
 .retry-button {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px;
+}
+
+// Keyboard container - this will stick to bottom
+.keyboard-container {
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.correct {
+  background-color: #52c41a;
+  color: white;
+  border-color: #52c41a;
+}
+
+.incorrect {
+  background-color: #ff4d4f;
+  color: white;
+  border-color: #ff4d4f;
+}
+
+.hint {
+  background-color: #faad14;
+  color: white;
+  border-color: #faad14;
 }
