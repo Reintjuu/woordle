@@ -20,10 +20,10 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
-    "ng-zorro-antd": "13.1.0",
-    "rxjs": "~7.5.0",
+    "ng-zorro-antd": "13.4.0",
+    "rxjs": "~7.8.2",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.8"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.2.5",
