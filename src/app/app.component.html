@@ -1,12 +1,10 @@
 <div class="container">
   <app-title [won]="won"></app-title>
   <div class="grid-container">
-    <ng-container *ngFor="let word of words; let wordIndex = index">
-      <ng-container *ngFor="let letter of word; let letterIndex = index">
-        <!-- TODO: Track indexes manually instead, and don't use the input with the weird focus hacks anymore. -->
+    <ng-container *ngFor="let word of words; ">
+      <ng-container *ngFor="let letter of word; ">
         <input
           [(ngModel)]="letter.value"
-          (ngModelChange)="checkFullWordGuess(wordIndex)"
           [ngClass]="{
             'correct': letter.state === state.Correct,
             'incorrect': letter.state === state.Incorrect,
@@ -21,14 +19,21 @@
       </ng-container>
     </ng-container>
   </div>
-  <button (click)="reloadPage()" class="retry-button" nz-button>
+  <button
+    (click)="resetGame()"
+    class="retry-button"
+    nz-button
+    (mousedown)="$event.preventDefault()"
+    (touchstart)="$event.preventDefault()"
+  >
     <i nz-icon nzTheme="outline" nzType="reload"></i>
     Opnieuw
   </button>
 
   <app-keyboard
+    #keyboard
     (keyPressed)="addLetterToCurrentGuess($event)"
-    (enterPressed)="onKeyboardEnterPress()"
-    (backspacePressed)="onKeyboardBackspacePress()">
+    (enterPressed)="submitGuess()"
+    (backspacePressed)="removeLastLetter()">
   </app-keyboard>
 </div>

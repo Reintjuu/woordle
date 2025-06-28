@@ -3,13 +3,17 @@
     <button
       nz-button
       *ngFor="let key of row"
-      (click)="onPress(key)"
-      [nzType]="'primary'"
+      (click)="onPress(key.value)"
       style="margin: 2px;"
+      [ngClass]="{
+        'correct': key.state === state.Correct,
+        'incorrect': key.state === state.Incorrect,
+        'hint': key.state === state.Hint
+      }"
       (mousedown)="$event.preventDefault()"
       (touchstart)="$event.preventDefault()"
     >
-      {{ key }}
+      {{ key.value }}
     </button>
   </div>
 </div>

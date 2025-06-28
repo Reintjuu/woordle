@@ -1,8 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostListener, OnInit, Output, ViewChild } from '@angular/core';
 import { WordService } from "./word.service";
 import { Letter } from "./letter";
 import { State } from "./state";
 import { NzNotificationDataOptions, NzNotificationService } from "ng-zorro-antd/notification";
+import { KeyboardComponent } from "./keyboard/keyboard.component";
 
 @Component({
   selector: 'app-root',
@@ -10,23 +11,40 @@ import { NzNotificationDataOptions, NzNotificationService } from "ng-zorro-antd/
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  words: Array<Array<Letter>> = new Array<Array<Letter>>();
-  state = State;
-  won = false;
+  // TODO: Probably split the letters in a separate component, and communicate using the #keyboard reference in the view.
+  @ViewChild('keyboard') private keyboard?: KeyboardComponent;
+  public readonly state = State;
 
   private readonly allowedGuesses = 6;
+  private wordLength = 5;
+
+  public words: Array<Array<Letter>> = new Array<Array<Letter>>();
+  public won = false;
 
   private wordToGuess?: string;
-  private wordLength = 5;
   private currentWordIndex = 0;
   private currentLetterIndex = 0;
+
 
   constructor(
     private wordService: WordService,
     private notification: NzNotificationService) {
   }
 
-  async ngOnInit(): Promise<void> {
+  public async ngOnInit(): Promise<void> {
+    await this.resetGame();
+  }
+
+  public async resetGame() {
+    this.won = false;
+
+    this.wordToGuess = undefined;
+    this.currentWordIndex = 0;
+    this.currentLetterIndex = 0;
+
+    this.keyboard?.resetKeyboardLetterState();
+
+    this.words = new Array<Array<Letter>>();
     this.wordToGuess = await this.wordService.getRandomWord();
     this.wordLength = this.wordToGuess.length;
 
@@ -41,7 +59,51 @@ export class AppComponent implements OnInit {
     console.log(this.wordToGuess);
   }
 
-  async checkFullWordGuess(wordIndex: number): Promise<void> {
+  @HostListener('window:keydown', ['$event'])
+  public async onKeyDown($event: KeyboardEvent): Promise<void> {
+    switch ($event.key) {
+      case 'Enter':
+        await this.submitGuess();
+        break;
+      case 'Backspace':
+        this.removeLastLetter();
+        break;
+      default:
+        this.addLetterToCurrentGuess($event.key);
+        break;
+    }
+  }
+
+  public addLetterToCurrentGuess(letter: string): void {
+    if (this.currentLetterIndex === this.wordLength
+      || !this.isOneLetter(letter)) {
+      return;
+    }
+
+    this.words[this.currentWordIndex][this.currentLetterIndex].value = letter;
+    this.currentLetterIndex++;
+  }
+
+  public async submitGuess(): Promise<void> {
+    // If we're not at the last letter of the current guess yet ...
+    if (this.currentLetterIndex !== this.wordLength) {
+      this.notification.create('warning', 'Onvolledig woord', 'Niet genoeg letters ingevuld!');
+      return;
+    }
+
+    await this.checkFullWordGuess(this.currentWordIndex);
+  }
+
+  public removeLastLetter(): void {
+    if (this.currentLetterIndex === 0) {
+      return;
+    }
+
+    this.currentLetterIndex--;
+    this.words[this.currentWordIndex][this.currentLetterIndex].value = undefined;
+  }
+
+  private async checkFullWordGuess(wordIndex: number): Promise<void> {
     if (!this.wordToGuess) {
       return;
     }
@@ -63,6 +125,7 @@ export class AppComponent implements OnInit {
     for (let i = 0; i < wordToCheck.length; i++) {
       const letter = wordToCheck[i];
       letter.setLetterStateBasedOnWord(this.wordToGuess, i);
+      this.keyboard?.setLettersStateBasedOnInputLetter(letter);
     }
 
     // Check if we have won or lost.
@@ -81,10 +144,6 @@ export class AppComponent implements OnInit {
     this.currentLetterIndex = 0;
   }
 
-  reloadPage() {
-    window.location.reload();
-  }
-
   private resetGuess(guess: Array<Letter>): void {
     for (let i = 0; i < guess.length; i++) {
       const letter = guess[i];
@@ -94,46 +153,6 @@ export class AppComponent implements OnInit {
 
     // Focus the first letter of the current guess row.
     this.currentLetterIndex = 0;
-  }
-
-  @HostListener('window:keydown', ['$event'])
-  async onKeyDown($event: KeyboardEvent): Promise<void> {
-    if ($event.key === 'Enter') {
-      await this.onKeyboardEnterPress();
-    } else if ($event.key === 'Backspace') {
-      this.onKeyboardBackspacePress();
-    } else {
-      this.addLetterToCurrentGuess($event.key);
-    }
-  }
-
-  addLetterToCurrentGuess(letter: string): void {
-    if (this.currentLetterIndex === this.wordLength
-      || !this.isOneLetter(letter)) {
-      return;
-    }
-
-    this.words[this.currentWordIndex][this.currentLetterIndex].value = letter;
-    this.currentLetterIndex++;
-  }
-
-  async onKeyboardEnterPress(): Promise<void> {
-    // If we're not at the last letter of the current guess yet ...
-    if (this.currentLetterIndex !== this.wordLength) {
-      this.notification.create('warning', 'Onvolledig woord', 'Niet genoeg letters ingevuld!');
-      return;
-    }
-
-    await this.checkFullWordGuess(this.currentWordIndex);
-  }
-
-  onKeyboardBackspacePress(): void {
-    if (this.currentLetterIndex === 0) {
-      return;
-    }
-
-    this.currentLetterIndex--;
-    this.words[this.currentWordIndex][this.currentLetterIndex].value = undefined;
   }
 
   private isOneLetter(char: string): boolean {
