@@ -1,16 +1,18 @@
-import { State } from "./state";
+import {State} from "./state";
 
 export class Letter {
-  value?: string;
   state = State.None;
 
+  constructor(
+    public value: string | undefined = undefined) {
+  }
+
   public setLetterStateBasedOnWord(currentWord: string, letterIndex: number): void {
-    if (!currentWord || !this.value) {
+    if (this.value === undefined) {
       return;
     }
 
-    const lowerCaseValue = this.value?.toLowerCase();
-
+    const lowerCaseValue = this.value.toLowerCase();
     if (currentWord[letterIndex] === lowerCaseValue) {
       this.state = State.Correct;
       return;

@@ -14,7 +14,9 @@ export class WordService {
   async loadWords(): Promise<void> {
     this.data = await lastValueFrom(this.httpClient
       .get('assets/all-words', { responseType: 'text' })
-      .pipe(map(data => data.split('\n'))));
+      .pipe(map(data => data
+        .split('\n')
+        .map(line => line.trim()))));
 
     this.loaded = true;
   }
