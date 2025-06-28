@@ -13,8 +13,8 @@ export class KeyboardComponent {
   @Output() enterPressed = new EventEmitter();
   public readonly state = State;
 
-  private readonly enterKey = 'ENTER';
-  private readonly backspaceKey = '<';
+  private readonly enterKey = '⤶';
+  private readonly backspaceKey = 'ᐊ';
   keyboard = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
     ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],

@@ -1,3 +1,4 @@
+@import "~src/app/state-hints";
 
 .keyboard {
   width: 100%;
@@ -21,13 +22,13 @@
 
 .keyboard-row button {
   height: 50px;
-  min-width: 30px;
+  min-width: 20px;
   flex: 1;
   max-width: 45px;
-  font-size: clamp(10px, 4vw, 16px); // Responsive font size with limits
+  font-size: clamp(10px, 4vw, 16px);
   font-weight: bold;
 
-  // Ensure text is always centered
+  // Ensure text is always centered and fits
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,51 +70,8 @@
 .keyboard-row:last-child button:first-child,
 .keyboard-row:last-child button:last-child {
   flex: 2;
+  min-width: 45px;
   max-width: 80px;
-  font-size: clamp(8px, 3vw, 14px); // Smaller text for longer words
 
-  // Ensure centering for special keys too
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-
-  // Prevent text overflow
-  overflow: hidden;
-  white-space: nowrap;
-
-  @media (max-width: 767px) {
-    flex: 1.8;
-    max-width: 70px;
-    font-size: clamp(10px, 3.5vw, 16px);
-  }
-
-  @media (max-width: 400px) {
-    flex: 1.6;
-    max-width: 60px;
-    font-size: clamp(6px, 2.5vw, 12px);
-  }
-
-  @media (max-width: 320px) {
-    font-size: clamp(5px, 2vw, 10px);
-    max-width: 50px;
-  }
-}
-
-.correct {
-  background-color: #52c41a;
-  color: white;
-  border-color: #52c41a;
-}
-
-.incorrect {
-  background-color: #ff4d4f;
-  color: white;
-  border-color: #ff4d4f;
-}
-
-.hint {
-  background-color: #faad14;
-  color: white;
-  border-color: #faad14;
+  font-weight: normal;
 }

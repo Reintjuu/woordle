@@ -1,3 +1,5 @@
+@import "~src/app/state-hints";
+
 .container {
   height: 100vh;
   width: 100%;
@@ -45,10 +47,21 @@
   align-items: center;
   justify-content: center;
 
+  transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transform: scale(1);
+
   @media (max-width: 400px) {
     width: 35px;
     height: 35px;
   }
+}
+
+.retry-button-container {
+  height: 48px; // Adjust based on your button height
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 16px 0; // Adjust spacing as needed
 }
 
 .retry-button {
@@ -59,22 +72,4 @@
 .keyboard-container {
   flex-shrink: 0;
   width: 100%;
-}
-
-.correct {
-  background-color: #52c41a;
-  color: white;
-  border-color: #52c41a;
-}
-
-.incorrect {
-  background-color: #ff4d4f;
-  color: white;
-  border-color: #ff4d4f;
-}
-
-.hint {
-  background-color: #faad14;
-  color: white;
-  border-color: #faad14;
 }

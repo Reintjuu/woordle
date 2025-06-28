@@ -17,15 +17,17 @@
       </div>
     </div>
 
-    <button
-      nz-button
-      *ngIf="won"
-      (click)="resetGame()"
-      class="retry-button"
-    >
-      <i nz-icon nzType="reload" nzTheme="outline"></i>
-      Opnieuw spelen
-    </button>
+    <div class="retry-button-container">
+      <button
+        nz-button
+        *ngIf="won"
+        (click)="resetGame()"
+        class="retry-button"
+      >
+        <i nz-icon nzType="reload" nzTheme="outline"></i>
+        Opnieuw spelen
+      </button>
+    </div>
   </div>
 
   <div class="keyboard-container">
