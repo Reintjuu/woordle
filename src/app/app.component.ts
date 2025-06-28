@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
   private currentWordIndex = 0;
   private currentLetterIndex = 0;
 
-
   constructor(
     private wordService: WordService,
     private notification: NzNotificationService) {
