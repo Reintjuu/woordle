@@ -60,6 +60,8 @@ export class AppComponent implements OnInit {
 
   @HostListener('window:keydown', ['$event'])
   public async onKeyDown($event: KeyboardEvent): Promise<void> {
+    $event.preventDefault();
+
     switch ($event.key) {
       case 'Enter':
         await this.submitGuess();
