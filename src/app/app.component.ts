@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
 
   public words: Array<Array<Letter>> = new Array<Array<Letter>>();
   public won = false;
+  public gameOver = false;
 
   private wordToGuess?: string;
   private currentWordIndex = 0;
@@ -36,6 +37,7 @@ export class AppComponent implements OnInit {
 
   public async resetGame() {
     this.won = false;
+    this.gameOver = false;
 
     this.wordToGuess = undefined;
     this.currentWordIndex = 0;
@@ -132,11 +134,13 @@ export class AppComponent implements OnInit {
     // Check if we have won or lost.
     if (assembledWordGuess === this.wordToGuess) {
       this.won = true;
+      this.gameOver = true;
       this.notification.create('success', 'Gefeliciteerd', `Je hebt het juiste woord (${this.wordToGuess}) geraden!`);
       return;
     }
 
     if (wordIndex + 1 === this.allowedGuesses) {
+      this.gameOver = true;
       this.notification.create('error', 'Helaas', `Het woord was "${this.wordToGuess}".`, {nzDuration: undefined} as NzNotificationDataOptions);
       return;
     }
@@ -152,7 +156,7 @@ export class AppComponent implements OnInit {
       letter.state = State.None;
     }
 
-    // Focus the first letter of the current guess row.
+    // Focus on the first letter of the current guess row.
     this.currentLetterIndex = 0;
   }
 
