@@ -73,10 +73,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "Woordle:build:production"
+              "buildTarget": "Woordle:build:production"
             },
             "development": {
-              "browserTarget": "Woordle:build:development"
+              "buildTarget": "Woordle:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +84,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Woordle:build"
+            "buildTarget": "Woordle:build"
           }
         },
         "test": {
@@ -107,6 +107,5 @@
         }
       }
     }
-  },
-  "defaultProject": "Woordle"
+  }
 }

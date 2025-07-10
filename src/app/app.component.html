@@ -8,11 +8,11 @@
           @for (letter of word; track letter) {
             <div
               class="letter"
-          [ngClass]="{
-            'correct': letter.state === state.Correct,
-            'incorrect': letter.state === state.Incorrect,
-            'hint': letter.state === state.Hint
-          }">
+              [ngClass]="{
+                'correct': letter.state === state.Correct,
+                'incorrect': letter.state === state.Incorrect,
+                'hint': letter.state === state.Hint
+              }">
               {{ letter.value }}
             </div>
           }
@@ -26,7 +26,7 @@
           nz-button
           (click)="resetGame()"
           class="retry-button"
-          >
+        >
           <i nz-icon nzType="reload" nzTheme="outline"></i>
           Opnieuw spelen
         </button>

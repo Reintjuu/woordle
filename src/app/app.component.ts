@@ -4,10 +4,21 @@ import { Letter } from "./letter";
 import { State } from "./state";
 import { NzNotificationDataOptions, NzNotificationService } from "ng-zorro-antd/notification";
 import { KeyboardComponent } from "./keyboard/keyboard.component";
+import { TitleComponent } from "./title/title.component";
+import { NgClass } from "@angular/common";
+import { NzButtonComponent } from "ng-zorro-antd/button";
+import { NzIconDirective } from "ng-zorro-antd/icon";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
+  imports: [
+    TitleComponent,
+    NgClass,
+    NzButtonComponent,
+    NzIconDirective,
+    KeyboardComponent
+  ],
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
