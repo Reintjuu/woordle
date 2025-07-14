@@ -6,14 +6,14 @@ import { NzButtonComponent } from "ng-zorro-antd/button";
 
 @Component({
   selector: 'app-keyboard',
-  templateUrl: './keyboard.component.html',
+  templateUrl: './keyboard.html',
   imports: [
     NgClass,
     NzButtonComponent
   ],
-  styleUrls: ['./keyboard.component.scss']
+  styleUrls: ['./keyboard.scss']
 })
-export class KeyboardComponent {
+export class Keyboard {
   @Output() keyPressed = new EventEmitter<string>();
   @Output() backspacePressed = new EventEmitter();
   @Output() enterPressed = new EventEmitter();

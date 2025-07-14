@@ -3,13 +3,13 @@ import { NgClass } from "@angular/common";
 
 @Component({
   selector: 'app-title',
-  templateUrl: './title.component.html',
+  templateUrl: './title.html',
   imports: [
     NgClass
   ],
-  styleUrls: ['./title.component.scss']
+  styleUrls: ['./title.scss']
 })
-export class TitleComponent {
+export class Title {
   title = 'Woordle';
 
   @Input() won = false;
