@@ -74,7 +74,7 @@ export class App implements OnInit {
     this.notification.remove();
 
     // Force change detection, because Angular suddenly doesn't show the input boxes.
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 
   @HostListener('window:keydown', ['$event'])
