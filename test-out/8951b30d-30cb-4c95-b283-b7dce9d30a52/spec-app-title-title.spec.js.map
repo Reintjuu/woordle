@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/title/title.spec.ts"],
-  "sourcesContent": ["import { ComponentFixture, TestBed } from '@angular/core/testing';\nimport { Title } from './title';\nimport { provideZonelessChangeDetection } from '@angular/core';\n\ndescribe('Title', () => {\n  let component: Title;\n  let fixture: ComponentFixture<Title>;\n\n  beforeEach(async () => {\n    await TestBed.configureTestingModule({\n      imports: [Title],\n      providers: [provideZonelessChangeDetection()]\n    })\n    .compileComponents();\n\n    fixture = TestBed.createComponent(Title);\n    component = fixture.componentInstance;\n  });\n\n  it('should create', () => {\n    expect(component).toBeTruthy();\n  });\n\n  it(`should have as title 'Woordle'`, () => {\n    expect(component.title).toEqual('Woordle');\n  });\n});\n"],
-  "mappings": ";;;;;;;;;;;;;;AAAA;;;AACA;AACA;AAEA,aAAS,SAAS,MAAK;AACrB,UAAI;AACJ,UAAI;AAEJ,iBAAW,MAAW;AACpB,cAAM,QAAQ,uBAAuB;UACnC,SAAS,CAAC,KAAK;UACf,WAAW,CAAC,+BAA8B,CAAE;SAC7C,EACA,kBAAiB;AAElB,kBAAU,QAAQ,gBAAgB,KAAK;AACvC,oBAAY,QAAQ;MACtB,EAAC;AAED,SAAG,iBAAiB,MAAK;AACvB,eAAO,SAAS,EAAE,WAAU;MAC9B,CAAC;AAED,SAAG,kCAAkC,MAAK;AACxC,eAAO,UAAU,KAAK,EAAE,QAAQ,SAAS;MAC3C,CAAC;IACH,CAAC;;;",
-  "names": []
-}

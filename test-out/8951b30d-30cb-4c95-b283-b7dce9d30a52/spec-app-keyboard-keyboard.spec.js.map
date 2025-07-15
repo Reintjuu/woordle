@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/keyboard/keyboard.spec.ts"],
-  "sourcesContent": ["import { ComponentFixture, TestBed } from '@angular/core/testing';\nimport { Keyboard } from './keyboard';\nimport { provideZonelessChangeDetection } from '@angular/core';\n\ndescribe('Keyboard', () => {\n  let component: Keyboard;\n  let fixture: ComponentFixture<Keyboard>;\n\n  beforeEach(async () => {\n    await TestBed.configureTestingModule({\n      imports: [Keyboard],\n      providers: [provideZonelessChangeDetection()]\n    })\n    .compileComponents();\n\n    fixture = TestBed.createComponent(Keyboard);\n    component = fixture.componentInstance;\n  });\n\n  it('should create', () => {\n    expect(component).toBeTruthy();\n  });\n});\n"],
-  "mappings": ";;;;;;;;;;;;;;;AAAA;;;AACA;AACA;AAEA,aAAS,YAAY,MAAK;AACxB,UAAI;AACJ,UAAI;AAEJ,iBAAW,MAAW;AACpB,cAAM,QAAQ,uBAAuB;UACnC,SAAS,CAAC,QAAQ;UAClB,WAAW,CAAC,+BAA8B,CAAE;SAC7C,EACA,kBAAiB;AAElB,kBAAU,QAAQ,gBAAgB,QAAQ;AAC1C,oBAAY,QAAQ;MACtB,EAAC;AAED,SAAG,iBAAiB,MAAK;AACvB,eAAO,SAAS,EAAE,WAAU;MAC9B,CAAC;IACH,CAAC;;;",
-  "names": []
-}

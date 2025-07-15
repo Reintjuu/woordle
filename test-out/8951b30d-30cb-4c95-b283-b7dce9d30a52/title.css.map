@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/title/title.scss"],
-  "sourcesContent": [".rainbow {\n  animation: colorRotate .5s linear 0s infinite;\n}\n\n@keyframes colorRotate {\n  from {\n    color: #6666ff;\n  }\n  10% {\n    color: #0099ff;\n  }\n  50% {\n    color: #00ff00;\n  }\n  75% {\n    color: #ff3399;\n  }\n  100% {\n    color: #6666ff;\n  }\n}\n"],
-  "mappings": ";AAAA,CAAA;AACE,aAAA,YAAA,KAAA,OAAA,GAAA;;AAGF,WAHE;AAIA;AACE,WAAA;;AAEF;AACE,WAAA;;AAEF;AACE,WAAA;;AAEF;AACE,WAAA;;AAEF;AACE,WAAA;;;",
-  "names": []
-}
