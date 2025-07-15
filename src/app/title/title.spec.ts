@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Title } from './title';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 describe('Title', () => {
   let component: Title;
@@ -8,13 +8,13 @@ describe('Title', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Title]
+      imports: [Title],
+      providers: [provideZonelessChangeDetection()]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(Title);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -22,7 +22,6 @@ describe('Title', () => {
   });
 
   it(`should have as title 'Woordle'`, () => {
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('Woordle');
+    expect(component.title).toEqual('Woordle');
   });
 });

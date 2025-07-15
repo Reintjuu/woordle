@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { Keyboard } from './keyboard';
+import { provideZonelessChangeDetection } from '@angular/core';
 
 describe('Keyboard', () => {
   let component: Keyboard;
@@ -8,13 +8,13 @@ describe('Keyboard', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Keyboard]
+      imports: [Keyboard],
+      providers: [provideZonelessChangeDetection()]
     })
     .compileComponents();
 
     fixture = TestBed.createComponent(Keyboard);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
