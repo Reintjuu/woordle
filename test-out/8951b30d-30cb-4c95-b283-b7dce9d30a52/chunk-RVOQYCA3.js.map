@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["angular:jit:template:src/app/title/title.html", "angular:jit:style:src/app/title/title.scss", "src/app/title/title.ts"],
+  "sourcesContent": ["<h1 [ngClass]=\"{'rainbow' : won}\">{{ title }}</h1>\n", "/* src/app/title/title.scss */\n.rainbow {\n  animation: colorRotate 0.5s linear 0s infinite;\n}\n@keyframes colorRotate {\n  from {\n    color: #6666ff;\n  }\n  10% {\n    color: #0099ff;\n  }\n  50% {\n    color: #00ff00;\n  }\n  75% {\n    color: #ff3399;\n  }\n  100% {\n    color: #6666ff;\n  }\n}\n/*# sourceMappingURL=title.css.map */\n", "import { Component, Input } from '@angular/core';\nimport { NgClass } from \"@angular/common\";\n\n@Component({\n  selector: 'app-title',\n  templateUrl: './title.html',\n  imports: [\n    NgClass\n  ],\n  styleUrls: ['./title.scss']\n})\nexport class Title {\n  title = 'Woordle';\n\n  @Input() won = false;\n}\n"],
+  "mappings": ";;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;ACAA,IAAAA;AAAA,IAAAC,cAAA;AAAA;AAAA,IAAAD,iBAAA;AAAA;AAAA;;;ICWa;;;;;;;AAXb;AACA;AAUO,IAAM,QAAN,MAAME,OAAK;MAChB,QAAQ;MAEC,MAAM;;sBAAd,MAAK,CAAA;;;AAHK,YAAK,WAAA;MARjB,UAAU;QACT,UAAU;QACV,UAAA;QACA,SAAS;UACP;;;OAGH;OACY,KAAK;;;",
+  "names": ["title_default", "init_title", "Title"]
+}
