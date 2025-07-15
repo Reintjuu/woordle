@@ -1,0 +1,45 @@
+<div class="container">
+  <div class="content">
+    <app-title [won]="won"></app-title>
+
+    <div class="words-container">
+      @for (word of words; track word) {
+        <div class="grid-container">
+          @for (letter of word; track letter) {
+            <div
+              class="letter"
+              [ngClass]="{
+                'correct': letter.state === state.Correct,
+                'incorrect': letter.state === state.Incorrect,
+                'hint': letter.state === state.Hint
+              }">
+              {{ letter.value }}
+            </div>
+          }
+        </div>
+      }
+    </div>
+
+    <div class="retry-button-container">
+      @if (gameOver) {
+        <button
+          nz-button
+          (click)="resetGame()"
+          class="retry-button"
+        >
+          <i nz-icon nzType="reload" nzTheme="outline"></i>
+          Opnieuw spelen
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="keyboard-container">
+    <app-keyboard
+      #keyboard
+      (keyPressed)="addLetterToCurrentGuess($event)"
+      (backspacePressed)="removeLastLetter()"
+      (enterPressed)="submitGuess()">
+    </app-keyboard>
+  </div>
+</div>

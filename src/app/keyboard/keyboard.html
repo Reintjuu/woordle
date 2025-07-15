@@ -1,0 +1,21 @@
+<div class="keyboard">
+  @for (row of keyboard; track row) {
+    <div class="keyboard-row">
+      @for (key of row; track key) {
+        <button
+          nz-button
+          (click)="onPress(key.value)"
+          style="margin: 2px;"
+          [ngClass]="{
+            'correct': key.state === state.Correct,
+            'incorrect': key.state === state.Incorrect,
+            'hint': key.state === state.Hint
+          }"
+          (mousedown)="$event.preventDefault()"
+        >
+          {{ key.value }}
+        </button>
+      }
+    </div>
+  }
+</div>

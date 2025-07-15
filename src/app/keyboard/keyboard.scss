@@ -1,4 +1,4 @@
-@import "~src/app/state-hints";
+@use "../state-hints" as *;
 
 .keyboard {
   width: 100%;

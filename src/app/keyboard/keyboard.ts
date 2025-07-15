@@ -1,13 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Letter } from "../letter";
 import { State } from "../state";
+import { NgClass } from "@angular/common";
+import { NzButtonComponent } from "ng-zorro-antd/button";
 
 @Component({
   selector: 'app-keyboard',
-  templateUrl: './keyboard.component.html',
-  styleUrls: ['./keyboard.component.scss']
+  templateUrl: './keyboard.html',
+  imports: [
+    NgClass,
+    NzButtonComponent
+  ],
+  styleUrls: ['./keyboard.scss']
 })
-export class KeyboardComponent {
+export class Keyboard {
   @Output() keyPressed = new EventEmitter<string>();
   @Output() backspacePressed = new EventEmitter();
   @Output() enterPressed = new EventEmitter();

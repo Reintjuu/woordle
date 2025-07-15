@@ -1,18 +1,29 @@
-import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { WordService } from "./word.service";
 import { Letter } from "./letter";
 import { State } from "./state";
 import { NzNotificationDataOptions, NzNotificationService } from "ng-zorro-antd/notification";
-import { KeyboardComponent } from "./keyboard/keyboard.component";
+import { Keyboard } from "./keyboard/keyboard";
+import { Title } from "./title/title";
+import { NgClass } from "@angular/common";
+import { NzButtonComponent } from "ng-zorro-antd/button";
+import { NzIconDirective } from "ng-zorro-antd/icon";
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  templateUrl: './app.html',
+  imports: [
+    Title,
+    NgClass,
+    NzButtonComponent,
+    NzIconDirective,
+    Keyboard
+  ],
+  styleUrls: ['./app.scss']
 })
-export class AppComponent implements OnInit {
+export class App implements OnInit {
   // TODO: Probably split the letters in a separate component, and communicate using the #keyboard reference in the view.
-  @ViewChild('keyboard') private keyboard?: KeyboardComponent;
+  @ViewChild('keyboard') private keyboard?: Keyboard;
   public readonly state = State;
 
   private readonly allowedGuesses = 6;
@@ -28,7 +39,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private wordService: WordService,
-    private notification: NzNotificationService) {
+    private notification: NzNotificationService,
+    private changeDetectorRef: ChangeDetectorRef) {
   }
 
   public async ngOnInit(): Promise<void> {
@@ -58,6 +70,11 @@ export class AppComponent implements OnInit {
     }
 
     console.log(this.wordToGuess);
+
+    this.notification.remove();
+
+    // Force change detection, because Angular suddenly doesn't show the input boxes.
+    this.changeDetectorRef.markForCheck();
   }
 
   @HostListener('window:keydown', ['$event'])
