@@ -100,7 +100,7 @@ export class App implements OnInit {
       return;
     }
 
-    this.words[this.currentWordIndex][this.currentLetterIndex].value = letter;
+    this.words[this.currentWordIndex][this.currentLetterIndex].character = letter;
     this.currentLetterIndex++;
   }
 
@@ -120,7 +120,7 @@ export class App implements OnInit {
     }
 
     this.currentLetterIndex--;
-    this.words[this.currentWordIndex][this.currentLetterIndex].value = undefined;
+    this.words[this.currentWordIndex][this.currentLetterIndex].character = undefined;
   }
 
   private async checkFullWordGuess(wordIndex: number): Promise<void> {
@@ -128,24 +128,28 @@ export class App implements OnInit {
       return;
     }
 
-    const wordToCheck = this.words[wordIndex];
+    const guessedWordLetters = this.words[wordIndex];
 
-    const assembledWordGuess = wordToCheck
-      .map(letter => letter.value)
-      .join('')
-      .toLowerCase();
+    let guessedCharacters = guessedWordLetters
+      .map(letter => letter.character?.toLowerCase())
+      .filter(letter => letter !== undefined);
+
+    const assembledWordGuess = guessedCharacters
+      .join('');
 
     if (!await this.wordService.isRealWord(assembledWordGuess)) {
-      this.resetGuess(wordToCheck);
+      this.resetGuess(guessedWordLetters);
       this.notification.create('warning', 'Onbekend woord', `Het woord "${assembledWordGuess}" staat niet in de woordenlijst.`);
       return;
     }
 
+
+
     // Update letter colors.
-    for (let i = 0; i < wordToCheck.length; i++) {
-      const letter = wordToCheck[i];
-      letter.setLetterStateBasedOnWord(this.wordToGuess, i);
-      this.keyboard?.setLettersStateBasedOnInputLetter(letter);
+    for (let i = 0; i < guessedWordLetters.length; i++) {
+      const letterGuess = guessedWordLetters[i];
+      letterGuess.setLetterStateBasedOnWord(this.wordToGuess, i, guessedCharacters);
+      this.keyboard?.setLettersStateBasedOnInputLetter(letterGuess);
     }
 
     // Check if we have won or lost.
@@ -169,7 +173,7 @@ export class App implements OnInit {
   private resetGuess(guess: Array<Letter>): void {
     for (let i = 0; i < guess.length; i++) {
       const letter = guess[i];
-      letter.value = undefined;
+      letter.character = undefined;
       letter.state = State.None;
     }
 

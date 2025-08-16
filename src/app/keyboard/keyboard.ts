@@ -30,7 +30,7 @@ export class Keyboard {
   public setLettersStateBasedOnInputLetter(input: Letter): void {
     for (const row of this.keyboard) {
       for (const key of row) {
-        if (key.value?.toLowerCase() !== input.value?.toLowerCase()
+        if (key.character?.toLowerCase() !== input.character?.toLowerCase()
           // Only upgrade keyboard key hints.
           || key.state >= input.state) {
           continue;
