@@ -8,6 +8,7 @@ import { Title } from "./title/title";
 import { NgClass } from "@angular/common";
 import { NzButtonComponent } from "ng-zorro-antd/button";
 import { NzIconDirective } from "ng-zorro-antd/icon";
+import { GuessCheckerService } from './guess-checker.service';
 
 @Component({
   selector: 'app-root',
@@ -39,6 +40,7 @@ export class App implements OnInit {
 
   constructor(
     private wordService: WordService,
+    private guessCheckerService: GuessCheckerService,
     private notification: NzNotificationService,
     private changeDetectorRef: ChangeDetectorRef) {
   }
@@ -143,12 +145,12 @@ export class App implements OnInit {
       return;
     }
 
-
+    const states = this.guessCheckerService.determineStatesForGuess(assembledWordGuess, this.wordToGuess);
 
     // Update letter colors.
     for (let i = 0; i < guessedWordLetters.length; i++) {
       const letterGuess = guessedWordLetters[i];
-      letterGuess.setLetterStateBasedOnWord(this.wordToGuess, i, guessedCharacters);
+      letterGuess.state = states[i];
       this.keyboard?.setLettersStateBasedOnInputLetter(letterGuess);
     }
 
