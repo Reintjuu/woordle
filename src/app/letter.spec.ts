@@ -7,7 +7,7 @@ describe('Letter', () => {
     const guess = 'aaaaa';
     const expectedStates = [State.Incorrect, State.Correct, State.Correct, State.Incorrect, State.Correct];
 
-    checkHints(guess, wordToGuess, expectedStates);
+    checkGetStates(guess, wordToGuess, expectedStates);
   });
 
   it('should contain proper hints for word \'raasa\' and guess \'arasa\'', () => {
@@ -15,10 +15,21 @@ describe('Letter', () => {
     const guess = 'arasa';
     const expectedStates = [State.Hint, State.Hint, State.Correct, State.Correct, State.Correct];
 
-    checkHints(guess, wordToGuess, expectedStates);
+    checkGetStates(guess, wordToGuess, expectedStates);
   });
-  
-  function checkHints(guess: string, wordToGuess: string, expectedStates: State[]) {
+
+  function checkGetStates(guess: string, wordToGuess: string, expectedStates: State[]) {
+    const states = new Letter().getStates(guess, wordToGuess);
+    console.log(`${wordToGuess}/${guess} (${expectedStates.map(s => State[s])}) / (${states.map(s => State[s])})`);
+    expect(
+      equal(
+        states,
+        expectedStates))
+      .withContext('Hints are not correctly set')
+      .toBeTrue();
+  }
+
+  function checkSetLetterStateBasedOnWord(guess: string, wordToGuess: string, expectedStates: State[]) {
     const guessedCharacters = guess
       .split('');
 
