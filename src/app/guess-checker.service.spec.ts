@@ -77,7 +77,6 @@ describe('GuessCheckerService', () => {
   it('should contain no duplicate hints when letter is already correctly set later for word \'klets\' and guess \'schee\'', () => {
     const wordToGuess = 'klets';
     const guess = 'schee';
-    // TODO: This was what I was trying to prevent, but not working yet. The last state should be Incorrect, instead of Hint.
     const expected = [State.Hint, State.Incorrect, State.Incorrect, State.Hint, State.Incorrect];
 
     const states = new GuessCheckerService().determineStatesForGuess(guess, wordToGuess);
@@ -92,6 +91,4 @@ describe('GuessCheckerService', () => {
     const states = new GuessCheckerService().determineStatesForGuess(guess, wordToGuess);
     expect(states).toEqual(expected);
   });
-
-
 });
