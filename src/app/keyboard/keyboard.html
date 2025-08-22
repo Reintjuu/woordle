@@ -4,7 +4,7 @@
       @for (key of row; track key) {
         <button
           nz-button
-          (click)="onPress(key.value)"
+          (click)="onPress(key.character)"
           style="margin: 2px;"
           [ngClass]="{
             'correct': key.state === state.Correct,
@@ -13,7 +13,7 @@
           }"
           (mousedown)="$event.preventDefault()"
         >
-          {{ key.value }}
+          {{ key.character }}
         </button>
       }
     </div>
